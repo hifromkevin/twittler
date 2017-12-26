@@ -1,27 +1,112 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="jquery.js"></script>
-    <script src="data_generator.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/data_generator.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">  
+    <link href="css/style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <script>
-
       $(document).ready(function(){
+        //variables
         var $body = $('body');
-        $body.html('');
+        var $myHTML = '<div class="container"><div class="row"><h1 id="title">Twittler</h1>';
+        var usernames = [];
+        var listFollowers = '';
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
+        //HTML Structure
+        $myHTML += '<div class="col-sm-3 profile"></div>';
+        $myHTML += '<div class="col-sm-5 tweets"></div>';
+        $myHTML += '<div class="col-sm-4 suggested"></div>';
+        $myHTML += '</div></div>';
+        $body.html($myHTML);
+
+        //Profile section
+        $('<div class="profile-pic"></div').appendTo('.profile');
+
+        //Dislay new Tweets
+        function displayTweets() {
+          var index = streams.home.length - 1;
+
+
+
+        // while(index >= 0){
+        var tweet = streams.home[index];
+        var $tweet = $('<div class="message"></div>');
+
+        //clean up time
+        var stringTime = '' + tweet.created_at;
+        var splitTime = stringTime.split(' ');
+        var arrayTime = splitTime.splice(0, 7);
+        var regularTime = arrayTime[4].split(':');
+        var timePre = regularTime[0];
+        var ampm = 'am';
+        if(regularTime[0] > 12){
+          timePre -= 12;
+          ampm = 'pm';
+        }
+        regularTime = timePre + ':' + regularTime[1] + ':' + regularTime[2] + ampm;
+        var timeSyntax = arrayTime[0] + ', ' + arrayTime[1] + ' ' + arrayTime[2] + ', ' + arrayTime[3] + ' at ' + regularTime + ' ' + arrayTime[6];
+
+        $tweet.fadeIn('slow').html('<a href="#" class="' + tweet.user + '"><strong> @' + tweet.user + '</strong></a>: ' + tweet.message + '<br />' + timeSyntax );
+        $tweet.appendTo($('.tweets'));
+        index -= 1;
+
+        var flag = true;
+        for(var i = 0; i < usernames.length; i++){
+          if(tweet.user === usernames[i]){
+            flag = false;
+          }
+        }
+        flag ? usernames.push(tweet.user) : flag = false;
+
+        // }
+
         }
 
-      });
+        //Add the People to follow section
+        $('.suggested').html($('<h2>People to follow</h2>'));
 
+
+        //Add users to follow list
+        function peopleToFollow(){
+          for(var j = 0; j < usernames.length; j++){
+            listFollowers += '<a href="#">@' + usernames[j] + '</a><br />';
+          }
+          return listFollowers;
+        }
+
+        //Show new Tweets
+        var runtime = 0;
+        var interval = setInterval(function(){
+          runtime += 1;
+          displayTweets();
+          if(runtime === 5){
+            clearInterval(interval);
+            peopleToFollow();
+            $('.suggested').append(listFollowers);
+            // $('<button class="more">Show More</button>').appendTo($('.tweets'));
+          }
+        },1000);
+
+        //Button to show more tweets
+        // $('<button class="more">Show More</button>').appendTo($('.tweets'));
+        // $('.more').on('click', function(){
+        //   $(this).remove();
+        //   displayTweets();
+        //   $('<button class="more">Show More</button>').appendTo($('.tweets'));
+        // });
+
+        //TEST: Create a button that shows more tweets after interval is run
+        // $('.more').on('click', function(){
+        //   $(this).remove();
+        //   runtime = 0;
+        //   interval();
+        // });
+
+
+      });
     </script>
   </body>
 </html>
