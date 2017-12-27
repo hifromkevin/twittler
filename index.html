@@ -11,16 +11,19 @@
       $(document).ready(function(){
         //variables
         var $body = $('body');
-        var $myHTML = '<div class="container"><div class="row"><h1 id="title">Twittler</h1>';
-        var usernames = [];
-        var listFollowers = '';
+        var $myHeader = '<header><h1 id="title">Twittler</h1></header>'
+        var $heroImage = '<div class="hero-image"></div>';
+        var $mainContent = $myHeader + $heroImage + '<div class="container content-body"><div class="row">';
+        var $usernames = [];
+        var $listOfTweets = [];
+        var $listFollowers = '';
 
-        //HTML Structure
-        $myHTML += '<div class="col-sm-3 profile"></div>';
-        $myHTML += '<div class="col-sm-5 tweets"></div>';
-        $myHTML += '<div class="col-sm-4 suggested"></div>';
-        $myHTML += '</div></div>';
-        $body.html($myHTML);
+        //HTML Body Structure
+        $mainContent += '<div class="col-sm-3 profile"></div>';
+        $mainContent += '<div class="col-sm-5 tweets"></div>';
+        $mainContent += '<div class="col-sm-4 suggested"></div>';
+        $mainContent += '</div></div>';
+        $body.html($mainContent);
 
         //Profile section
         $('<div class="profile-pic"></div').appendTo('.profile');
@@ -35,11 +38,11 @@
         var tweet = streams.home[index];
         var $tweet = $('<div class="message"></div>');
 
-        //clean up time
+        //military time to regular time
+        //cleanup excess time items
         var stringTime = '' + tweet.created_at;
-        var splitTime = stringTime.split(' ');
-        var arrayTime = splitTime.splice(0, 7);
-        var regularTime = arrayTime[4].split(':');
+        var splitTime = stringTime.split(' ').splice(0, 7);
+        var regularTime = splitTime[4].split(':');
         var timePre = regularTime[0];
         var ampm = 'am';
         if(regularTime[0] > 12){
@@ -47,19 +50,22 @@
           ampm = 'pm';
         }
         regularTime = timePre + ':' + regularTime[1] + ':' + regularTime[2] + ampm;
-        var timeSyntax = arrayTime[0] + ', ' + arrayTime[1] + ' ' + arrayTime[2] + ', ' + arrayTime[3] + ' at ' + regularTime + ' ' + arrayTime[6];
+        var timeSyntax = splitTime[0] + ', ' + splitTime[1] + ' ' + splitTime[2] + ', ' + splitTime[3] + ' at ' + regularTime + ' ' + splitTime[6];
 
         $tweet.fadeIn('slow').html('<a href="#" class="' + tweet.user + '"><strong> @' + tweet.user + '</strong></a>: ' + tweet.message + '<br />' + timeSyntax );
+        var $hello = [];
+        $listOfTweets.push($tweet);
+
         $tweet.appendTo($('.tweets'));
         index -= 1;
 
         var flag = true;
-        for(var i = 0; i < usernames.length; i++){
-          if(tweet.user === usernames[i]){
+        for(var i = 0; i < $usernames.length; i++){
+          if(tweet.user === $usernames[i]){
             flag = false;
           }
         }
-        flag ? usernames.push(tweet.user) : flag = false;
+        flag ? $usernames.push(tweet.user) : flag = false;
 
         // }
 
@@ -71,10 +77,10 @@
 
         //Add users to follow list
         function peopleToFollow(){
-          for(var j = 0; j < usernames.length; j++){
-            listFollowers += '<a href="#">@' + usernames[j] + '</a><br />';
+          for(var j = 0; j < $usernames.length; j++){
+            $listFollowers += '<a href="#">@' + $usernames[j] + '</a><br />';
           }
-          return listFollowers;
+          return $listFollowers;
         }
 
         //Show new Tweets
@@ -85,7 +91,10 @@
           if(runtime === 5){
             clearInterval(interval);
             peopleToFollow();
-            $('.suggested').append(listFollowers);
+            console.log($usernames);
+            console.log($listOfTweets);
+            console.log($listOfTweets[0][0]['innerText']);
+            $('.suggested').append($listFollowers);
             // $('<button class="more">Show More</button>').appendTo($('.tweets'));
           }
         },1000);
@@ -104,6 +113,13 @@
         //   runtime = 0;
         //   interval();
         // });
+
+
+        //click title, changes text in .tweets
+        $('#title').on('click', function(){
+            $('.tweets').html($listOfTweets[3]);
+            clearInterval(interval);
+        });
 
 
       });
