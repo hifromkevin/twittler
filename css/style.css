@@ -39,7 +39,7 @@ header {
 	width:150px;
 	height: 150px;
 	margin: 0 auto;
-	background-image: url('../img/profile/person.jpg');
+	background-image: url('../img/profile/default.jpg');
 	border-radius: 50%;
 	background-position: center center;
 	background-size: cover;
@@ -49,6 +49,13 @@ header {
 	text-align: center;
 	font-weight: bold;
 	font-size: 1.3em;
+}
+
+.quote {
+	font-style: italic;
+	font-size: 0.8em;
+	text-align: center;
+	font-weight: bold;
 }
 
 .tweets div.message {
