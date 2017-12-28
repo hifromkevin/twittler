@@ -19,12 +19,16 @@
 			var regularTime = splitTime[4].split(':');
 			var timePre = regularTime[0];
 			var ampm = 'am';
+
 			if(regularTime[0] > 12){
 			timePre -= 12;
 			ampm = 'pm';
 			}
+
 			regularTime = timePre + ':' + regularTime[1] + ':' + regularTime[2] + ampm;
-			var timeSyntax = splitTime[0] + ', ' + splitTime[1] + ' ' + splitTime[2] + ', ' + splitTime[3] + ' at ' + regularTime + ' ' + splitTime[6];
+			var timeSyntax = splitTime[0] + ', ' + splitTime[1] + ' ';
+			timeSyntax += splitTime[2] + ', ' + splitTime[3] + ' at '; 
+			timeSyntax += regularTime + ' ' + splitTime[6];
 
 			$tweet.fadeIn('slow').html('<a class="' + tweet.user + '"><strong> @' + tweet.user + '</strong></a>: ' + tweet.message + '<br />' + timeSyntax );
 			$listOfTweets.push($tweet);
@@ -109,20 +113,5 @@ $('a.sharksforcheap-suggested').on('click', function(){
     $('div.message a:not(.sharksforcheap)').closest($('div.message')).hide();
 });
     
-
-    // for(var i = 0; i < $usernames.length; i++){
-    //     $("'." +  $usernames[i]  + "'").on('click', function(){
-    //         $("'div.message a." + $usernames[i] + "'.closest($('div.message')).show();"
-    //         $("'div.message a:not(." + $usernames[i] + ")').closest($('div.message')).hide();"
-    //     });
-    // }
-
-
-
-    // $usernames.forEach((user) => {
-    //     $('.' + user).on('click', function(){
-    //         $('div.message a:not( .' + user + ')').closest($('div.message')).hide();
-    //     });
-    // });
 
  });
