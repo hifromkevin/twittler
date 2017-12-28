@@ -26,7 +26,7 @@
         $body.html($mainContent);
 
         //Profile section
-        $('<div class="profile-pic"></div').appendTo('.profile');
+        $('<div class="profile-pic"></div><br /><p class="profile-user">@<span class="profile-name">HOME</span></p>').appendTo('.profile');
 
         //Dislay new Tweets
         function displayTweets() {
@@ -52,8 +52,7 @@
         regularTime = timePre + ':' + regularTime[1] + ':' + regularTime[2] + ampm;
         var timeSyntax = splitTime[0] + ', ' + splitTime[1] + ' ' + splitTime[2] + ', ' + splitTime[3] + ' at ' + regularTime + ' ' + splitTime[6];
 
-        $tweet.fadeIn('slow').html('<a href="#" class="' + tweet.user + '"><strong> @' + tweet.user + '</strong></a>: ' + tweet.message + '<br />' + timeSyntax );
-        var $hello = [];
+        $tweet.fadeIn('slow').html('<a class="' + tweet.user + '"><strong> @' + tweet.user + '</strong></a>: ' + tweet.message + '<br />' + timeSyntax );
         $listOfTweets.push($tweet);
 
         $tweet.appendTo($('.tweets'));
@@ -78,7 +77,7 @@
         //Add users to follow list
         function peopleToFollow(){
           for(var j = 0; j < $usernames.length; j++){
-            $listFollowers += '<a href="#">@' + $usernames[j] + '</a><br />';
+            $listFollowers += '<a href="#" class="' + $usernames[j] + '-suggested">@' + $usernames[j] + '</a><br />';
           }
           return $listFollowers;
         }
@@ -91,14 +90,10 @@
           if(runtime === 5){
             clearInterval(interval);
             peopleToFollow();
-            console.log($usernames);
-            console.log($listOfTweets);
-            console.log($listOfTweets[0][0]['innerText']);
             $('.suggested').append($listFollowers);
             // $('<button class="more">Show More</button>').appendTo($('.tweets'));
           }
         },1000);
-
         //Button to show more tweets
         // $('<button class="more">Show More</button>').appendTo($('.tweets'));
         // $('.more').on('click', function(){
@@ -117,10 +112,51 @@
 
         //click title, changes text in .tweets
         $('#title').on('click', function(){
-            $('.tweets').html($listOfTweets[3]);
+            $('.tweets').html('');
+
+            for(var i = 0; i < $listOfTweets.length; i++){
+                $('.tweets').append('<div class="message">' + $listOfTweets[i][0]['innerHTML']) + '</div>';
+            }
             clearInterval(interval);
+            $('.profile-pic').css("background-image", "url('img/profile/person2.jpg')"); 
+            $('.hero-image').css("background-image", "url('img/hero/wolf.jpg')"); 
         });
 
+
+    $('a.douglascalhoun').on('click', function(event){
+        event.stopPropagation();
+        $('div.message a.douglascalhoun').closest($('div.message')).show();
+        $('div.message a:not(.douglascalhoun)').closest($('div.message')).hide();
+    });
+    $('a.douglascalhoun-suggested').on('click', function(){
+        $('div.message a.douglascalhoun').closest($('div.message')).show();
+        $('div.message a:not(.douglascalhoun)').closest($('div.message')).hide();
+    });
+    $('a.sharksforcheap').on('click', function(){
+        event.stopPropagation();
+        $('div.message a.sharksforcheap').closest($('div.message')).show();
+        $('div.message a:not(.sharksforcheap)').closest($('div.message')).hide();
+    });
+    $('a.sharksforcheap-suggested').on('click', function(){
+        $('div.message a.sharksforcheap').closest($('div.message')).show();
+        $('div.message a:not(.sharksforcheap)').closest($('div.message')).hide();
+    });
+        
+
+        // for(var i = 0; i < $usernames.length; i++){
+        //     $("'." +  $usernames[i]  + "'").on('click', function(){
+        //         $("'div.message a." + $usernames[i] + "'.closest($('div.message')).show();"
+        //         $("'div.message a:not(." + $usernames[i] + ")').closest($('div.message')).hide();"
+        //     });
+        // }
+
+
+
+        // $usernames.forEach((user) => {
+        //     $('.' + user).on('click', function(){
+        //         $('div.message a:not( .' + user + ')').closest($('div.message')).hide();
+        //     });
+        // });
 
       });
     </script>

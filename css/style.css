@@ -19,13 +19,16 @@ header {
 	text-align: center;
 	margin: 0px;
 	font-size: 3em;
+	color: #6485a9;
 }
 
 .hero-image {
 	width: 100%; 
 	height: 250px; 
 	margin-top: 7em; 
-	background-color: #000;
+	background-image: url('../img/hero/sf.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .content-body {
@@ -36,8 +39,16 @@ header {
 	width:150px;
 	height: 150px;
 	margin: 0 auto;
-	background-color: #000;
+	background-image: url('../img/profile/person.jpg');
 	border-radius: 50%;
+	background-position: center center;
+	background-size: cover;
+}
+
+.profile-user {
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.3em;
 }
 
 .tweets div.message {
@@ -50,5 +61,6 @@ header {
 .suggested {
 	border: 1px solid black;
 	background: #fff;	
+	padding-bottom: 2%;
 }
 
