@@ -11,9 +11,9 @@ streams.users.shawndrost = [];
 streams.users.sharksforcheap = [];
 streams.users.mracus = [];
 streams.users.douglascalhoun = [];
-streams.users.chiliTHEdog = [];
-streams.users.shrimpchips = [];
-streams.users.icecream = [];
+// streams.users.chiliTHEdog = [];
+// streams.users.shrimpchips = [];
+// streams.users.icecream = [];
 window.users = Object.keys(streams.users);
 
 // utility function for adding tweets to our data structures
