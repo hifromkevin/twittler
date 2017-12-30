@@ -29,8 +29,6 @@
 			$num++;
 		}
 
-		console.log($usernames);
-
     //Add users to follow list
     function suggestedUsers(){
     for(var i = 0; i < $usernames.length; i++){
@@ -82,11 +80,12 @@
 				$(this).closest($('div.message')).show();
 				$('div.message a:not(' + $theUser + ')').closest($('div.message')).hide();
 				$('.profile-name').html(tweet.user);
+				clearInterval(interval);
 				for(var i = 0; i < $usernames.length; i++){
 					if(tweet.user === $usernames[i]['name']){
-console.log('url("' + $usernames[i]['profile'] + '")');
-						$('.profile-pic').css('background-image', 'url("' + $usernames[i]['profile'] + '");');
-						$('.hero-image').css('background-image', 'url("' + $usernames[i]['hero'] + '");');
+						$('.profile-pic').attr('src', $usernames[i]['profile']);
+						$('.hero-image').attr('src', $usernames[i]['hero']);
+						$('.quote').html($randomQuote[i]);
 					}
 				}
 			});
@@ -96,47 +95,55 @@ console.log('url("' + $usernames[i]['profile'] + '")');
 				$($userLink).closest($('div.message')).show();
 				$('div.message a:not(' + $theUser + ')').closest($('div.message')).hide();
 				$('.profile-name').html(tweet.user);
+				clearInterval(interval);
+				for(var i = 0; i < $usernames.length; i++){
+					if(tweet.user === $usernames[i]['name']){
+						$('.profile-pic').attr('src', $usernames[i]['profile']);
+						$('.hero-image').attr('src', $usernames[i]['hero']);
+						$('.quote').html($randomQuote[i]);
+					}
+				}
 			});
 
  
  			$('.title').on('click', () => {
  				$('div.message').show();
  				$('.profile-name').html('not-tom');
- 				$('.profile-pic').css('background-image', '../img/default.jpg');
- 				$('.hero-img').css('background-image', '../img/default.jpg');
- 				$('.quote').html("I'm totally not Tom from MySpace, and I show the most recent tweets!'");
+ 				$('.profile-pic').attr('src', 'img/profile/default.jpg');
+ 				$('.hero-image').attr('src', 'img/hero/default.jpg');
+ 				$('.quote').html("I'm totally not Tom from MySpace, and I show the most recent tweets!");
 			});
 
     }
 
     //Show new Tweets
 		var runtime = 0;
-		var interval = setInterval(function(){
+		var interval = setInterval(myInterval, 1000);
+		function myInterval(){
 			runtime += 1;
 			displayTweets();
-			if(runtime === 5){
+			if(runtime === streams.home.length){
 				clearInterval(interval);
 			}
-		},1000);
+		};
 
+		// var flag = true;
+		// function myInterval(){
+		// 	flag = false;
+		// 	var runtime = 0;
+		// 	var interval = setInterval(function(){
+		// 		runtime += 1;
+		// 		displayTweets();
+		// 		if(runtime === streams.home.length){
+		// 			clearInterval(interval);
+		// 		}
+		// 	},1000);
+		// }
 
-
-
-
- //    function tweets(){
- //    	for(var i = 0; i < streams.home.length; i++){
- //    		var theTweet = streams.home[i];
- //    		$tweet.fadeIn('slow').append('<a class="' + theTweet.user + '"> @' + theTweet.user + '</a>: ' + theTweet.message + '<br /><span class="timestamp">' + theTweet.created_at + '</span>');
- //    	}
- //    };
-
- //   	var runtime = 0;
-	// 	var interval = setInterval(function(){
-	// 		runtime += 1;
-	// 		tweets();
-	// 		if(runtime === 5){
-	// 			clearInterval(interval);
-	// 		}
-	// 	},1000);
+		// if(flag){
+		// 	myInterval();			
+		// } else {
+		// 	clearInterval(interval);
+		// }
 
  });
